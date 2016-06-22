@@ -12,8 +12,8 @@ setup(
     name='django-exabackend',
     long_description="EXASOL DB backend for Django",
     version="0.0.1",
-    license="N/A"
-    maintainer="Oleksandr Kozachuk"
+    license="N/A",
+    maintainer="Oleksandr Kozachuk",
     maintainer_email="oleksandr.kozachuk@exasol.com",
     description="EXASOL DB backend for Django.",
     url='https://github.com/aurorasoftware/django-pyodbc',
