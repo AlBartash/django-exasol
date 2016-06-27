@@ -9,7 +9,7 @@ from django.utils.encoding import force_text
 
 
 class DatabaseOperations(BaseDatabaseOperations):
-    compiler_module = "django.db.backends.exasol.compiler"
+    compiler_module = "django_exabackend.compiler"
 
     def convert_datetimefield_value(self, value, expression, connection, context):
         #print "@@@ convert_datetimefield_value", repr((value, expression, connection, context))
