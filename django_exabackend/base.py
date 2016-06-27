@@ -44,9 +44,7 @@ class CursorWrapper(object):
             #print '@@@ execute:', repr(query), repr(args)
             if args is None:
                 return self.cursor.execute(query)
-            if type(query) == unicode:
-                query = query.encode('utf-8')
-            return self.cursor.execute(query.replace('%s', '?'), args)
+            return self.cursor.execute(force_str(query.replace('%s', '?')), args)
         except Database.OperationalError as e:
             if e.args[0] in self.codes_for_integrityerror:
                 six.reraise(utils.IntegrityError, utils.IntegrityError(*tuple(e.args)), sys.exc_info()[2])
@@ -54,7 +52,7 @@ class CursorWrapper(object):
 
     def executemany(self, query, args):
         try:
-            return self.cursor.executemany(query, args)
+            return self.cursor.executemany(force_str(query), args)
         except Database.OperationalError as e:
             if e.args[0] in self.codes_for_integrityerror:
                 six.reraise(utils.IntegrityError, utils.IntegrityError(*tuple(e.args)), sys.exc_info()[2])
