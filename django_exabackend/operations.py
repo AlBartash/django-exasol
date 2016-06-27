@@ -43,6 +43,11 @@ class DatabaseOperations(BaseDatabaseOperations):
             converters.append(self.convert_datetimefield_value)
         return converters
 
+    def lookup_cast(self, lookup_type, internal_type=None):
+        if lookup_type in ('iexact', 'icontains', 'istartswith', 'iendswith'):
+            return "UPPER(%s)"
+        return "%s"
+
     def last_insert_id(self, cursor, table_name, pk_name):
         return 0
 
