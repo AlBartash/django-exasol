@@ -20,7 +20,14 @@ class DatabaseOperations(BaseDatabaseOperations):
         return value
 
     def quote_name(self, name):
-        return '"%s"' % name.replace('"', '""')
+        """
+        Returns a quoted version of the given table, index or column name. Does
+        not quote the given name if it's already been quoted.
+        Supports schema.table form identifiers -> "schema"."table"
+        """
+        if name.startswith('"') and name.endswith('"'):
+            return name # Quoting once is enough.
+        return '.'.join(['%s%s%s' % ('"', piece.upper(), '"') for piece in name.split('.')])
 
     def bulk_insert_sql(self, fields, placeholder_rows):
         #print "@@@ bulk_insert_sql", repr(fields), repr(placeholder_rows)
