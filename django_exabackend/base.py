@@ -18,6 +18,8 @@ from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.safestring import SafeBytes, SafeText
 
+from django_pyodbc.compat import binary_type, text_type, timezone
+
 try:
     import pyodbc as Database
 except ImportError as e:
@@ -42,9 +44,11 @@ class CursorWrapper(object):
     def execute(self, query, args=None):
         try:
             #print '@@@ execute:', repr(query), repr(args)
+            query = self._format_query(query)
             if args is None:
-                return self.cursor.execute(force_str(query))
-            return self.cursor.execute(force_str(query.replace('%s', '?')), args)
+                return self.cursor.execute(query)
+            args = self._format_args(args)
+            return self.cursor.execute(query, args)
         except Database.OperationalError as e:
             if e.args[0] in self.codes_for_integrityerror:
                 six.reraise(utils.IntegrityError, utils.IntegrityError(*tuple(e.args)), sys.exc_info()[2])
@@ -52,11 +56,36 @@ class CursorWrapper(object):
 
     def executemany(self, query, args):
         try:
-            return self.cursor.executemany(force_str(query), args)
+            query = self._format_query(query)
+            args = self._format_args(args)
+            return self.cursor.executemany(query, args)
         except Database.OperationalError as e:
             if e.args[0] in self.codes_for_integrityerror:
                 six.reraise(utils.IntegrityError, utils.IntegrityError(*tuple(e.args)), sys.exc_info()[2])
             raise
+
+    def _format_query(self, query):
+        return force_str(query.replace('%s', '?'))
+
+    def _format_args(self, args):
+        args = map(lambda a: a.encode('utf-8') if isinstance(a, text_type) else a, args)
+        return tuple(args)
+
+    def _format_results(self, row):
+        fields = map(lambda field: field.decode('utf-8') if isinstance(field, binary_type) else field, row)
+        return tuple(fields)
+
+    def fetchone(self):
+        row = self.cursor.fetchone()
+        if row is not None:
+            return self._format_results(row)
+        return []
+
+    def fetchmany(self, chunk):
+        return [self._format_results(row) for row in self.cursor.fetchmany(chunk)]
+
+    def fetchall(self):
+        return [self._format_results(row) for row in self.cursor.fetchall()]
 
     def __getattr__(self, attr):
         if attr in self.__dict__:
