@@ -160,6 +160,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         if conn_params.get('DRIVER', '') != '': kw['DRIVER'] = '{%s}' % conn_params['DRIVER']
         if conn_params.get('EXAHOST', '') != '': kw['EXAHOST'] = conn_params['EXAHOST']
         if conn_params.get('SCHEMA', '') != '': kw['SCHEMA'] = conn_params['SCHEMA']
+        if conn_params.get('CONNECTIONLCCTYPE', '') != '': kw['CONNECTIONLCCTYPE'] = conn_params['CONNECTIONLCCTYPE']
         if conn_params.get('HOST', '') != '':
             if 'EXAHOST' in conn_params:
                 raise ImproperlyConfigured("Either specify HOST and PORT settings or EXAHOST in setup, but not both")
