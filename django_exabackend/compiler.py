@@ -2,6 +2,7 @@ import re
 import tempfile
 from collections import OrderedDict
 
+from django.core.exceptions import FieldError
 from django.db.models.sql import compiler
 
 from .features import DatabaseFeatures
