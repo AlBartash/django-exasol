@@ -1,4 +1,4 @@
-# django
+# django-exasol
 
 This project contains the necessary dialect to integrate EXASOL into the Django framework.
 
