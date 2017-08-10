@@ -19,7 +19,8 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
     sql_delete_column = "ALTER TABLE %(table)s DROP COLUMN %(column)s CASCADE"
     sql_rename_column = "ALTER TABLE %(table)s RENAME COLUMN %(old_column)s TO %(new_column)s"
     sql_update_with_default = "UPDATE %(table)s SET %(column)s = %(default)s WHERE %(column)s IS NULL"
-
+# contraint and index handling with django-exasol needs to be revised
+# currently, most of this is deactivated
     sql_create_check = "-- ALTER TABLE %(table)s ADD CONSTRAINT %(name)s CHECK (%(check)s)"
     sql_delete_check = "-- ALTER TABLE %(table)s DROP CONSTRAINT %(name)s"
 
@@ -28,7 +29,7 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
 
     sql_create_fk = (
         "-- ALTER TABLE %(table)s ADD CONSTRAINT %(name)s FOREIGN KEY (%(column)s) "
-        "REFERENCES %(to_table)s (%(to_column)s)%(deferrable)s"
+#        "-- REFERENCES %(to_table)s (%(to_column)s)%(deferrable)s"
     )
     sql_create_inline_fk = None
     sql_delete_fk = "-- ALTER TABLE %(table)s DROP CONSTRAINT %(name)s"
