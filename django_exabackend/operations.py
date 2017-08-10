@@ -28,6 +28,7 @@ class DatabaseOperations(BaseDatabaseOperations):
         if name.startswith('"') and name.endswith('"'):
             return name # Quoting once is enough.
         return '.'.join(['%s%s%s' % ('"', piece.upper(), '"') for piece in name.split('.')])
+#        return '.'.join(['%s%s%s' % ('"', piece, '"') for piece in name.split('.')])
 
     def bulk_insert_sql(self, fields, placeholder_rows):
         #print "@@@ bulk_insert_sql", repr(fields), repr(placeholder_rows)

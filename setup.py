@@ -16,7 +16,8 @@ setup(
     maintainer="Oleksandr Kozachuk",
     maintainer_email="oleksandr.kozachuk@exasol.com",
     description="EXASOL DB backend for Django.",
-    url='https://github.com/aurorasoftware/django-pyodbc',
+#    url='https://github.com/aurorasoftware/django-pyodbc',
+    url='://github.com/EXASOL/django-exasol',
     package_data={'': ['README.md']},
     packages=[
         'django_exabackend',
