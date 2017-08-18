@@ -178,7 +178,7 @@ Checking connectivity... done.
 (djangoenv) @:~/test$ cd exasol-django-test/
 # with e.g. EXAplus, create a schema called "TEST" on the database:
 # CREATE SCHEMA TEST;
-(djangoenv) @:~/test/exasol-django-test$ ./manage.py test
+(djangoenv) @:~/test/exasol-django-test$ python manage.py test
 Setting up databases
 Read only databases (no TEST db will be created): exasol_db
 Creating test database for alias 'default'...
@@ -186,26 +186,84 @@ connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE
 creating table
 @@@ new_connection: {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
 inserting element ( nike us pg1 True )
-inserted with id 0
+inserted with id 1
 inserting element ( nike es pg1 True )
-inserted with id 0
-Fdropping table
-connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
+inserted with id 2
+inserting element ( adidas us pg1 False )
+inserted with id 3
+inserting element ( adidas ru pg1 False )
+inserted with id 4
+inserting element ( adidas pt pg1 False )
+inserted with id 5
+inserting element ( nike us pg2 True )
+inserted with id 6
+inserting element ( nike es pg2 True )
+inserted with id 7
+inserting element ( adidas us pg2 False )
+inserted with id 8
+inserting element ( adidas ru pg2 False )
+inserted with id 9
+inserting element ( adidas pt pg2 False )
+inserted with id 10
+dropping table
+.connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
 creating table
-Fdropping table
-connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
+dropping table
+.connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
 creating table
 inserting element ( nike us pg1 True )
-inserted with id 0
+inserted with id 1
 inserting element ( nike es pg1 True )
-inserted with id 0
-Fdropping table
-connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
+inserted with id 2
+inserting element ( adidas us pg1 False )
+inserted with id 3
+inserting element ( adidas ru pg1 False )
+inserted with id 4
+inserting element ( adidas pt pg1 False )
+inserted with id 5
+inserting element ( nike us pg2 True )
+inserted with id 6
+inserting element ( nike es pg2 True )
+inserted with id 7
+inserting element ( adidas us pg2 False )
+inserted with id 8
+inserting element ( adidas ru pg2 False )
+inserted with id 9
+inserting element ( adidas pt pg2 False )
+inserted with id 10
+dropping table
+.connecting to {u'DSN': 'exasolution-uo2214lv2_64', u'INTTYPESINRESULTSIFPOSSIBLE': u'y', u'CONNECTIONLCCTYPE': 'en_US.UTF-8'}
 creating table
 inserting element ( nike us pg1 True )
-inserted with id 0
+inserted with id 1
 inserting element ( nike es pg1 True )
-inserted with id 0
-Fdropping table
+inserted with id 2
+inserting element ( adidas us pg1 False )
+inserted with id 3
+inserting element ( adidas ru pg1 False )
+inserted with id 4
+inserting element ( adidas pt pg1 False )
+inserted with id 5
+inserting element ( nike us pg2 True )
+inserted with id 6
+inserting element ( nike es pg2 True )
+inserted with id 7
+inserting element ( adidas us pg2 False )
+inserted with id 8
+inserting element ( adidas ru pg2 False )
+inserted with id 9
+inserting element ( adidas pt pg2 False )
+inserted with id 10
+inserting element ( elcorteingles es pg3 True )
+inserted with id 11
+dropping table
+.
+----------------------------------------------------------------------
+Ran 4 tests in 2.100s
+
+OK
+Tearing down databases
+Destroying test database for alias 'default'...
+(djangoenv) osboxes@osboxes:~/test/exasol-django-test$
 ...
 ```
