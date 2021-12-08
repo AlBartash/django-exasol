@@ -15,7 +15,7 @@ class SQLCompiler(compiler.SQLCompiler):
         sql, params = super(SQLCompiler, self).as_sql(with_limits, with_col_aliases, subquery)
 
         if self._re_advanced_group_by.search(sql) is not None:
-            print "GROUP BY with parameters found: we need to rewrite the sql"
+            print("GROUP BY with parameters found: we need to rewrite the sql")
 
             # we need to rewrite queries that have parameters inside the GROUP BY clause, such as this one:
             #
@@ -34,7 +34,7 @@ class SQLCompiler(compiler.SQLCompiler):
             #
 
             # first, we generate a sequence of unique parameter names p0, p1... for each individual parameter
-            param_names = map(lambda (i, p): 'p%d' % (i,), enumerate(params))
+            param_names = map(lambda i, p: 'p%d' % (i,), enumerate(params))
             named_params = OrderedDict()
             for i, (param_name, param_value) in enumerate(zip(param_names, params)):
                 # for every parameter, find the first parameter in the list that has the same value

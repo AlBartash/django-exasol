@@ -13,7 +13,7 @@ from django.db import utils
 from django.db.backends import utils as backend_utils
 from django.db.backends.base.base import BaseDatabaseWrapper
 from django.utils import six, timezone
-from django.utils.deprecation import RemovedInDjango20Warning
+#from django.utils.deprecation import RemovedInDjango20Warning
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.safestring import SafeBytes, SafeText
@@ -43,7 +43,6 @@ class CursorWrapper(object):
 
     def execute(self, query, args=None):
         try:
-            #print '@@@ execute:', repr(query), repr(args)
             query = self._format_query(query)
             if args is None:
                 return self.cursor.execute(query)
@@ -136,18 +135,18 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     }
 
     def __init__(self, *args, **kwargs):
-        super(DatabaseWrapper, self).__init__(*args, **kwargs)
+        self.client_class = DatabaseClient
+        self.creation_class = DatabaseCreation
+        self.features_class = DatabaseFeatures
+        self.introspection_class = DatabaseIntrospection
+        self.ops_class = DatabaseOperations
+        self.validation_class = DatabaseValidation
 
-        self.features = DatabaseFeatures(self)
-        self.ops = DatabaseOperations(self)
-        self.client = DatabaseClient(self)
-        self.creation = DatabaseCreation(self)
-        self.introspection = DatabaseIntrospection(self)
-        self.validation = DatabaseValidation(self)
+        BaseDatabaseWrapper.__init__(self, *args, **kwargs)
 
     def init_connection_state(self):
         pass
-    
+
     @cached_property
     def data_types(self):
         return {
@@ -197,7 +196,6 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         return kw
 
     def get_new_connection(self, conn_params):
-        print "@@@ new_connection:", repr(conn_params)
         conn = Database.connect(**conn_params)
         if 'SCHEMA' in conn_params:
             try: conn.execute('OPEN SCHEMA %s' % conn_params['SCHEMA'])
