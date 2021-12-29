@@ -203,7 +203,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         return conn
 
     def create_cursor(self, name=None):
-        cursor = self.connection.cursor(name)
+        cursor = self.connection.cursor()
         return CursorWrapper(cursor)
 
     def _set_autocommit(self, autocommit):
