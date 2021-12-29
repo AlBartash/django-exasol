@@ -11,8 +11,8 @@ from .features import DatabaseFeatures
 class SQLCompiler(compiler.SQLCompiler):
     _re_advanced_group_by = re.compile(r'GROUP BY(.*%s.*)((ORDER BY)|(LIMIT))?', re.MULTILINE)
 
-    def as_sql(self, with_limits=True, with_col_aliases=False, subquery=False):
-        sql, params = super(SQLCompiler, self).as_sql(with_limits, with_col_aliases, subquery)
+    def as_sql(self, with_limits=True, with_col_aliases=False):
+        sql, params = super(SQLCompiler, self).as_sql(with_limits, with_col_aliases)
 
         if self._re_advanced_group_by.search(sql) is not None:
             print("GROUP BY with parameters found: we need to rewrite the sql")
