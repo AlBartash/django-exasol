@@ -11,7 +11,7 @@ except ImportError:
 setup(
     name='django-exabackend',
     long_description="EXASOL DB backend for Django",
-    version="0.0.4",
+    version="0.0.5",
     license="N/A",
     maintainer="Oleksandr Kozachuk",
     maintainer_email="oleksandr.kozachuk@exasol.com",

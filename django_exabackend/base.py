@@ -147,6 +147,14 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     def init_connection_state(self):
         pass
 
+    def is_usable(self):
+        try:
+            self.connection.cursor().execute("SELECT 1")
+        except Database.Error:
+            return False
+        else:
+            return True
+
     @cached_property
     def data_types(self):
         return {
