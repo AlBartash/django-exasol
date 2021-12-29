@@ -202,8 +202,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
             except: conn.execute('CREATE SCHEMA %s' % conn_params['SCHEMA'])
         return conn
 
-    def create_cursor(self):
-        cursor = self.connection.cursor()
+    def create_cursor(self, name=None):
+        cursor = self.connection.cursor(name)
         return CursorWrapper(cursor)
 
     def _set_autocommit(self, autocommit):
