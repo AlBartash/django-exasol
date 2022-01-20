@@ -45,8 +45,12 @@ class CursorWrapper(object):
             query = self._format_query(query)
             if args is None:
                 return self.cursor.execute(query)
-            args = self._format_args(args)
-            return self.cursor.execute(query, args)
+            nargs = []
+            for arg in self._format_args(args):
+                if type(arg) == bytes:
+                    nargs.append(arg.decode('UTF-8'))
+                else: nargs.append(arg)
+            return self.cursor.execute(query, nargs)
         except Database.OperationalError as e:
             if e.args[0] in self.codes_for_integrityerror:
                 six.reraise(utils.IntegrityError, utils.IntegrityError(*tuple(e.args)), sys.exc_info()[2])
