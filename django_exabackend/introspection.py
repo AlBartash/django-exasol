@@ -11,8 +11,10 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
         tablelist = []
         for r in rows:
             if r[1] == 'TABLE':
-                tablelist.append(TableInfo(r[0], 't'))
+                tablelist.append(TableInfo(self.identifier_converter(r[0]), 't'))
             elif r[1] == 'VIEW':
-                tablelist.append(TableInfo(r[0], 'v'))
-        #print "@@@ get_table_list", repr(rows), repr(tablelist)
+                tablelist.append(TableInfo(self.identifier_converter(r[0]), 'v'))
         return tablelist
+
+    def identifier_converter(self, name):
+        return name.lower()

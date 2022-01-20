@@ -13,7 +13,6 @@ from django.db import utils
 from django.db.backends import utils as backend_utils
 from django.db.backends.base.base import BaseDatabaseWrapper
 from django.utils import six, timezone
-#from django.utils.deprecation import RemovedInDjango20Warning
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.safestring import SafeBytes, SafeText
@@ -99,13 +98,14 @@ class CursorWrapper(object):
         return self
 
     def __exit__(self, type, value, traceback):
-        # Ticket #17671 - Close instead of passing thru to avoid backend
-        # specific behavior.
         self.close()
 
+    def close(self):
+        pass
 
 class DatabaseWrapper(BaseDatabaseWrapper):
     vendor = 'exasol'
+    display_name = 'ExasolDB'
 
     Database = Database
     SchemaEditorClass = DatabaseSchemaEditor
@@ -134,6 +134,36 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         'iregex': "REGEXP_LIKE '(?i)' || %s",
     }
 
+    data_types = {
+        'AutoField': 'integer IDENTITY',
+        'BigAutoField': 'bigint IDENTITY',
+        'BinaryField': 'varchar(%(max_legth)s)',
+        'BooleanField': 'boolean',
+        'CharField': 'varchar(%(max_length)s)',
+        'CommaSeparatedIntegerField': 'varchar(%(max_length)s)',
+        'DateField': 'date',
+        'DateTimeField': 'timestamp',
+        'DecimalField': 'decimal(%(max_digits)s, %(decimal_places)s)',
+        'DurationField': 'integer',
+        'FileField': 'varchar(%(max_length)s)',
+        'FilePathField': 'varchar(%(max_length)s)',
+        'FloatField': 'double precision',
+        'IntegerField': 'integer',
+        'BigIntegerField': 'integer',
+        'IPAddressField': 'char(15)',
+        'GenericIPAddressField': 'char(39)',
+        'NullBooleanField': 'boolean',
+        'OneToOneField': 'integer',
+        'PositiveIntegerField': 'integer',
+        'PositiveSmallIntegerField': 'integer',
+        'SlugField': 'varchar(%(max_length)s)',
+        'SmallIntegerField': 'integer',
+        'TextField': 'varchar(2000000)',
+        'TimeField': 'time',
+        'URLField': 'varchar(%(max_length))',
+        'UUIDField': 'char(32)',
+    }
+
     def __init__(self, *args, **kwargs):
         self.client_class = DatabaseClient
         self.creation_class = DatabaseCreation
@@ -155,36 +185,6 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         else:
             return True
 
-    @cached_property
-    def data_types(self):
-        return {
-            'AutoField': 'integer IDENTITY',
-            'BigAutoField': 'bigint IDENTITY',
-            'BinaryField': 'varchar(%(max_legth)s)',
-            'BooleanField': 'boolean',
-            'CharField': 'varchar(%(max_length)s)',
-            'CommaSeparatedIntegerField': 'varchar(%(max_length)s)',
-            'DateField': 'date',
-            'DateTimeField': 'timestamp',
-            'DecimalField': 'decimal(%(max_digits)s, %(decimal_places)s)',
-            'DurationField': 'integer',
-            'FileField': 'varchar(%(max_length)s)',
-            'FilePathField': 'varchar(%(max_length)s)',
-            'FloatField': 'double precision',
-            'IntegerField': 'integer',
-            'BigIntegerField': 'integer',
-            'IPAddressField': 'char(15)',
-            'GenericIPAddressField': 'char(39)',
-            'NullBooleanField': 'boolean',
-            'OneToOneField': 'integer',
-            'PositiveIntegerField': 'integer',
-            'PositiveSmallIntegerField': 'integer',
-            'SlugField': 'varchar(%(max_length)s)',
-            'SmallIntegerField': 'integer',
-            'TextField': 'varchar(2000000)',
-            'TimeField': 'time',
-            'UUIDField': 'char(32)',
-        }
 
     def get_connection_params(self):
         kw = {}; conn_params = self.settings_dict
