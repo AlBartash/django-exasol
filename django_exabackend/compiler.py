@@ -129,7 +129,7 @@ class SQLUpdateCompiler(compiler.SQLUpdateCompiler, SQLCompiler):
             else: values.append('%s = NULL' % qn(name))
         if not values:
             return '', ()
-        table = self.query.tables[0]
+        table = self.query.base_table
         result = ['UPDATE %s SET' % qn(table), ', '.join(values)]
         where, params = self.compile(self.query.where)
         if where: result.append('WHERE %s' % where)
