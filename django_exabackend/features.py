@@ -2,10 +2,11 @@ import re
 from django.db.backends.base.features import BaseDatabaseFeatures
 from django.utils.functional import cached_property
 
-from .base import Database
+from django_exabackend.base import Database
 
 try: import pytz
 except ImportError: pytz = None
+
 
 class DatabaseFeatures(BaseDatabaseFeatures):
     interprets_empty_strings_as_nulls = True

@@ -1,7 +1,8 @@
-from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+from django.db.backends.base.schema import BaseDatabaseSchemaEditor, _related_non_m2m_objects
 from django.db.models import NOT_PROVIDED
 
 from .features import DatabaseFeatures
+
 
 class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
     sql_create_table = "CREATE TABLE %(table)s (%(definition)s)"

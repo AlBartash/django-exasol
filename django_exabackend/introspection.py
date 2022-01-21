@@ -4,6 +4,7 @@ from django.db.backends.base.introspection import (
     BaseDatabaseIntrospection, FieldInfo, TableInfo,
 )
 
+
 class DatabaseIntrospection(BaseDatabaseIntrospection):
     def get_table_list(self, cursor):
         cursor.execute('SELECT TABLE_NAME, TABLE_TYPE FROM CAT')

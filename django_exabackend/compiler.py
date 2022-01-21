@@ -135,5 +135,6 @@ class SQLUpdateCompiler(compiler.SQLUpdateCompiler, SQLCompiler):
         if where: result.append('WHERE %s' % where)
         return ' '.join(result), tuple(update_params + params)
 
+
 class SQLAggregateCompiler(compiler.SQLAggregateCompiler, SQLCompiler):
     pass

@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 
 import uuid, re
+import datetime
 
 from django.conf import settings
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.utils import six, timezone
 from django.utils.encoding import force_text
+from django.utils.dateparse import parse_datetime
 
 
 class DatabaseOperations(BaseDatabaseOperations):
