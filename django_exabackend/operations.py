@@ -49,7 +49,7 @@ class DatabaseOperations(BaseDatabaseOperations):
         return "%s"
 
     def last_insert_id(self, cursor, table_name, pk_name):
-        table_name = self.quote_name(table_name)
+        table_name = self.quote_name(table_name).upper()
         cursor.execute("SELECT COLUMN_IDENTITY FROM EXA_ALL_COLUMNS WHERE '\"'||COLUMN_TABLE||'\"'='"+table_name+"' AND COLUMN_IDENTITY IS NOT NULL")
         return cursor.fetchone()[0]
 
