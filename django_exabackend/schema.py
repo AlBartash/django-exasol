@@ -1,3 +1,4 @@
+import datetime
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 from django.db.models import NOT_PROVIDED
 
