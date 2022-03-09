@@ -1,4 +1,7 @@
-from django.db.backends.base.schema import BaseDatabaseSchemaEditor, _related_non_m2m_objects
+
+import datetime
+from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+
 from django.db.models import NOT_PROVIDED
 
 from .features import DatabaseFeatures
@@ -48,6 +51,17 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
                 value = ma_date_tz.group(1)
         except: pass
         return u"'%s'" % value.replace(u"'", u"''")
+
+    def quote_value(self, value):
+        if isinstance(value, (datetime.date, datetime.time, datetime.datetime)):
+            return "'%s'" % value
+        elif isinstance(value, str):
+            return "'%s'" % value.replace("'", "''")
+        elif isinstance(value, (bytes, bytearray, memoryview)):
+            return b"'%s'" % value.replace(b"'", b"''")
+        elif isinstance(value, bool):
+            return "1" if value else "0"
+        return str(value)
 
     def column_sql(self, model, field, include_default=False):
         db_params = field.db_parameters(connection=self.connection)
